@@ -26,8 +26,9 @@ app.listen(app.get('port'), function() {
 
 io.on('connection', function(socket){
       
-    //client.connect(19000, 'omniosaka.dyndns.org', function() {
-    client.connect(19000, '62.28.231.130', function() {
+        console.log('Connecting...');
+    client.connect(19000, 'omniosaka.dyndns.org', function() {
+    //client.connect(19000, '62.28.231.130', function() {
         console.log('Connected');
         client.write('+login[357976063980593 , Siemens , Omni2016]');
 		
