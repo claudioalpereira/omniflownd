@@ -1,5 +1,5 @@
 {
-  "name": "Omniflow API Client Example",
+  "name": "omniflownd",
   "version": "1.0.1",
   "dependencies": {
     "express": "^4.14.0",
