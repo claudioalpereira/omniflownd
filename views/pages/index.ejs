@@ -62,5 +62,57 @@
 </div>
 
 
+
+     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+      <script>
+          var socket = io();
+
+          socket.on('result received', function(msg){
+                document.getElementById("results").innerHTML = msg;
+              
+                //msg as json var
+                var jvar= JSON.parse(msg);
+          });
+
+          function GetState(){
+            socket.emit('send cmd', '+getstate');
+          };
+          
+          function UpdateConf(){
+            socket.emit('send cmd', '+updateconf');
+          };
+          
+          function UpdateInst(){
+            socket.emit('send cmd', '+updateinst');
+          };
+          
+          function GetConf(){
+            socket.emit('send cmd', '+getconfdata');
+          };
+          
+          function GetInst(){
+            socket.emit('send cmd', '+getinstdata');
+          };
+          
+          function GetMeasures(){
+              var fday = document.forms["measuresform"]["from_day"].value;
+              var tday = document.forms["measuresform"]["to_day"].value;
+              
+              var cmd = '+getmeasures['+fday+','+tday+']';
+              socket.emit('send cmd', cmd);
+          };
+          
+          function PutValues(){
+              var key = document.forms["putform"]["key"].value;
+              var value = document.forms["putform"]["value"].value;
+              
+              var cmd = '+put['+key+','+value+']';
+              socket.emit('send cmd', cmd);
+          };
+          
+      </script>
+ 
+
+
 </body>
 </html>
