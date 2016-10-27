@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Omniflow API Client Example</title>
+  </head>
+  <body>
+    
+      
+    <button type="button" onclick="return GetState();">GetState</button>
+    <button type="button" onclick="return UpdateConf();">Update Config Info</button>
+    <button type="button" onclick="return UpdateInst();">Update Inst Info</button>
+    <button type="button" onclick="return GetConf();">Get Conf Data</button>
+    <button type="button" onclick="return GetInst();">Get Inst Data</button>
+      
+    <form id="measuresform" action="" method="get">
+        <fieldset>
+            <input type="text" name="from_day" placeholder="From: 2016-01-01"> 
+            <input type="text" name="to_day" placeholder="To: 2016-12-31"> 
+            <button type="button" onclick="return GetMeasures();">Get Measures</button>
+        </fieldset>
+    </form>
+      
+    <form id="putform" action="" method="get">
+        <fieldset>
+            <input type="text" name="key" placeholder="Key"> 
+            <input type="text" name="value" placeholder="Value"> 
+            <button type="button" onclick="return PutValues();">Put Values</button>
+        </fieldset>
+    </form>
+    
+      
+    <div>
+        <h3>Response:</h3>
+        <div id="results"></div>
+    </div>
+      
+
+      <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <script>
+          var socket = io();
+
+          socket.on('result received', function(msg){
+                document.getElementById("results").innerHTML = msg;
+              
+                //msg as json var
+                var jvar= JSON.parse(msg);
+          });
+
+          function GetState(){
+            socket.emit('send cmd', '+getstate');
+          };
+          
+          function UpdateConf(){
+            socket.emit('send cmd', '+updateconf');
+          };
+          
+          function UpdateInst(){
+            socket.emit('send cmd', '+updateinst');
+          };
+          
+          function GetConf(){
+            socket.emit('send cmd', '+getconfdata');
+          };
+          
+          function GetInst(){
+            socket.emit('send cmd', '+getinstdata');
+          };
+          
+          function GetMeasures(){
+              var fday = document.forms["measuresform"]["from_day"].value;
+              var tday = document.forms["measuresform"]["to_day"].value;
+              
+              var cmd = '+getmeasures['+fday+','+tday+']';
+              socket.emit('send cmd', cmd);
+          };
+          
+          function PutValues(){
+              var key = document.forms["putform"]["key"].value;
+              var value = document.forms["putform"]["value"].value;
+              
+              var cmd = '+put['+key+','+value+']';
+              socket.emit('send cmd', cmd);
+          };
+          
+      </script>
+    </body>
+</html>
