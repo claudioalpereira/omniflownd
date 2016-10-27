@@ -1,6 +1,11 @@
 var express = require('express');
 var app = express();
+
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var net = require('net');
+var client = new net.Socket();
+
 
 app.set('port', (process.env.PORT || 5000));
 
